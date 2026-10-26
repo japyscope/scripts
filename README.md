@@ -37,3 +37,13 @@ cd scripts && sha256sum *.sh > SHA256SUMS
   live one plus one rollback target) and the single oldest one (a
   known-good fallback floor), deletes everything strictly in between.
   Never deletes whatever `current` actually points at.
+
+- **`recover-stuck-venv.sh`** — finishes a venv build that
+  `install/update.py`'s own fixed timeouts (900s/300s) couldn't complete
+  on a Pi Zero W, instead of leaving the device rolled back to the
+  previous release. Resumes the same install/sync/flip/restart/health-check
+  steps `update.py apply()` would have done for the half-built release
+  left under `/opt/japyscope/releases`, but with its own, much longer
+  (and overridable) timeouts. Only matters for devices the
+  precompiled-venv OTA fast path (see jan-tdy/japyscope-remote's
+  `docs/UPDATE.md`) doesn't cover.
